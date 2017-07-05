@@ -1,0 +1,35 @@
+
+#liste des token
+t=("xoxp-xxx-xxx-xxxx-xx");
+#liste des groupes
+c=("mpDirect_name");
+#liste des membres
+m=("username1" "username2" );
+
+#Param de temps
+rate=1;
+
+echo "Start Clean";
+#Boucle pour pour lire chaque token du tableau $t
+for token in ${t[*]}
+do
+echo "Start clean for" $token;
+        #Boucle pour executer le clean des conversation groupe en fonction du tableau de token $m et le tableau $c
+        for chan in ${c[*]}
+        do
+                slack-cleaner --token $token --message --mpdirect $chan --user "*" --perform --rate $rate  > /dev/null 2>&1
+        done
+
+        #Suppression des conversation privee
+        for membre in ${m[*]}
+        do
+                slack-cleaner --token $token  --message --direct $membre --user "*" --perform --rate $rate  > /dev/null 2>&1
+        done
+done
+echo "End Clean";
+
+
+
+
+
+
